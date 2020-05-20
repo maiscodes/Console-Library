@@ -80,7 +80,7 @@ namespace CAB301
         /// </summary>
         public void IncrementBorrowedCount()
         {
-            TotalDvds += 1;
+            TotalBorrowed += 1;
         }
 
 
