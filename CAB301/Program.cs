@@ -17,29 +17,33 @@ namespace CAB301
             // HomePage just provide functions and the library will control everything?
             // MemberMenuPage(member)
             // StaffMenuPage() just provide functions.
-            string[] movieNames = new string[] { "k Movie1", "l movie2", "p movie3" };
-            string[] directorNames = new string[] { "director1", "director2", "director3" };
-            string[] genres = new string[] { Genres.Action, Genres.SciFi, Genres.Drama };
-            int[] durations = new int[] { 123, 124, 125 };
-            string[] classifications = new string[] { Classifications.General, Classifications.General, Classifications.General };
-            DateTime[] releaseDates = new DateTime[] { new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23) }; 
-            ArrayList[] actorLists = new ArrayList[] { new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }  };
+            string[] movieNames = new string[] { "a Movie1", "k movie2", "c movie3", "g Movie1", "s movie2", "d movie3" };
+            string[] directorNames = new string[] { "director1", "director2", "director3", "director1", "director2", "director3" };
+            string[] genres = new string[] { Genres.Action, Genres.SciFi, Genres.Drama, Genres.Action, Genres.SciFi, Genres.Drama };
+            int[] durations = new int[] { 123, 124, 125, 123, 124, 125 };
+            string[] classifications = new string[] { Classifications.General, Classifications.General, Classifications.General, Classifications.General, Classifications.General, Classifications.General };
+            DateTime[] releaseDates = new DateTime[] { new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23) }; 
+            ArrayList[] actorLists = new ArrayList[] { new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" } };
             ArrayList movies = new ArrayList();
 
             Movie movie1 = new Movie(movieNames[0], actorLists[0], directorNames[0], durations[0], genres[0], classifications[0], releaseDates[0]);
             Movie movie2 = new Movie(movieNames[1], actorLists[1], directorNames[1], durations[1], genres[1], classifications[1], releaseDates[1]);
             Movie movie3 = new Movie(movieNames[2], actorLists[2], directorNames[2], durations[2], genres[2], classifications[2], releaseDates[2]);
+            Movie movie4 = new Movie(movieNames[3], actorLists[3], directorNames[3], durations[3], genres[3], classifications[3], releaseDates[3]);
+            Movie movie5 = new Movie(movieNames[4], actorLists[4], directorNames[4], durations[4], genres[4], classifications[4], releaseDates[4]);
+            Movie movie6 = new Movie(movieNames[5], actorLists[5], directorNames[5], durations[5], genres[5], classifications[5], releaseDates[5]);
 
             movies.Add(movie1);
             movies.Add(movie2);
             movies.Add(movie3);
- 
-
+            movies.Add(movie4);
+            movies.Add(movie5);
+            movies.Add(movie6);
 
             //for (int i = 0; i < movieNames.Length; i++)
             //{
-              //  Movie m = new Movie(movieNames[i], actorLists[i], directorNames[i], durations[i], genres[i], classifications[i], releaseDates[i]);
-                //movies.Append(m);
+            //  Movie m = new Movie(movieNames[i], actorLists[i], directorNames[i], durations[i], genres[i], classifications[i], releaseDates[i]);
+            //movies.Append(m);
             //}
 
             // Testing Movie Class
@@ -101,10 +105,15 @@ namespace CAB301
 
             // Test Movie Collection
             movieCollection.DisplayAllMovies();
-            movieCollection.BorrowMovie("k Movie1");
+            movieCollection.BorrowMovie("k movie2");
             movieCollection.DisplayAllMovies();
-            movieCollection.ReturnMovie("k Movie1");
+            movieCollection.ReturnMovie("k movie2");
             movieCollection.DisplayAllMovies();
+            movieCollection.RemoveDVD("k movie2");
+            movieCollection.DisplayAllMovies();
+            movieCollection.RemoveDVD("d movie3");
+            movieCollection.DisplayAllMovies();
+
 
             Console.WriteLine("Hello World!");
         }

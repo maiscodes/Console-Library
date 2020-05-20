@@ -36,7 +36,8 @@ namespace CAB301
 
                     if  ( alphabeticalOrder == 0 ) // Already existing title. 
                     {
-                        checkNode.Movie.IncrementDVDCount(); 
+                        checkNode.Movie.IncrementDVDCount();
+                        isInserted = !isInserted;
                     }
 
                     if ( alphabeticalOrder == -1 ) // Change to sorting by totalBorrowed. movie.TotalBorrowed <= checkNode.Movie.TotalBorrowed
@@ -57,9 +58,9 @@ namespace CAB301
                         {
                             checkNode = checkNode.LeftNode;
                         }
-
                     }
-                    else
+                    
+                    if (alphabeticalOrder == 1)
                     {
                         if ( checkNode.RightNode == null ) // Put the movie into the right node or use as a base
                         {
@@ -86,21 +87,108 @@ namespace CAB301
 
         }
 
-        // RemoveDVD()
-        public void RemoveDVD(string title)
+        /// <summary>
+        /// Given a child node, the parent node it belongs to is returned.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Node FindParentNode(Node parent, Node node)
         {
-            // Get node. 
+            int alphabeticalOrder = string.Compare(node.Movie.Title, parent.Movie.Title);
 
-            // Remove connection. 
+            if (alphabeticalOrder == -1) // Means if parent then should be on the leftnode. 
+            {
+                if (parent.LeftNode == node)
+                {
+                    return parent;
+                }
+                else
+                {
+                    return FindParentNode(parent.LeftNode, node);
+                }
+            }
+
+            if (alphabeticalOrder == 1) // Means if parent then should be on the rightnode. 
+            {
+                if (parent.RightNode == node)
+                {
+                    return parent;
+                }
+                else
+                {
+                    return FindParentNode(parent.RightNode, node);
+                }
+            }
+
+            return null;
+
+        }
+
+        /// <summary>
+        /// Given a parent node and its child node, the left or right pointer is removed.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Node RemoveParentPointer(Node parent, Node node)
+        {
+            if (parent == null) // Means Root
+            {
+                return new Node();
+            }
+            int alphabeticalOrder = string.Compare(node.Movie.Title, parent.Movie.Title);
+
+            if (alphabeticalOrder == -1) // Means if parent then should be on the leftnode. 
+            {
+                parent.LeftNode = null;
+            }
+
+            if (alphabeticalOrder == 1) // Means if parent then should be on the rightnode. 
+            {
+                parent.RightNode = null;
+            }
+
+            return parent;
+
+        }
+        public Node RemoveDVD(string title)
+        {
+            // Get node
+            Node node = this.FindNode(Root, title);
+            Node parent = this.FindParentNode(Root, node);
+
+            List<Movie> displacedLeftMovies = new List<Movie>();
+            if (node.LeftNode != null)
+            {
+                displacedLeftMovies = this.GetAlphabeticalListOfMovies(node.LeftNode, displacedLeftMovies);
+            }
+           
+            List<Movie> displacedRightMovies = new List<Movie>();
+            if (node.RightNode != null)
+            {
+                displacedRightMovies = this.GetAlphabeticalListOfMovies(node.RightNode, displacedRightMovies);
+            }
+
+            // Remove pointer 
+            Root = this.RemoveParentPointer(parent, node);
+
+            // Remove connection. CHECK Cause removing more than expected.
+            node = null;
 
             // Traverse through the left node. 
+            foreach (Movie movie in displacedLeftMovies)
+            {
+                this.AddNewDVD(movie);
+            }
 
             // Traverse through the righ node. 
-            
+            foreach (Movie movie in displacedRightMovies)
+            {
+                this.AddNewDVD(movie);
+            }
 
-
-            // Remove and redistribute all its movies in tree. 
-            // 
+            return Root;
         }
 
         /// <summary>
@@ -139,10 +227,7 @@ namespace CAB301
         /// <param name="movie"></param>
         public void BorrowMovie(string title)
         {
-            List<Movie> movies = new List<Movie>();
-            movies = this.GetAlphabeticalListOfMovies(Root, movies);
-            Movie movie = this.GetMovie(title, movies, 0, movies.Count - 1);
-
+            Movie movie = this.FindNode(Root, title).Movie;
             if (movie.IsAvailable())
             {
                 movie.DecreaseDVDCount();
@@ -157,48 +242,8 @@ namespace CAB301
         /// <param name="title"></param>
         public void ReturnMovie(string title)
         {
-            List<Movie> movies = new List<Movie>();
-            movies = this.GetAlphabeticalListOfMovies(Root, movies);
-            Movie movie = this.GetMovie(title, movies, 0, movies.Count - 1);
+            Movie movie = this.FindNode(Root, title).Movie; 
             movie.IncrementDVDCount();
-        }
-
-        /// <summary>
-        /// Return movie using binary search. 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="alphabeticalMovies"></param>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        private Movie GetMovie(string title, List<Movie> alphabeticalMovies, int left, int right)
-        {
-            if ( right >= left )
-            {
-                int middle = left + (right - 1) / 2;
-
-                if (alphabeticalMovies[middle].Title == title)
-                {
-                    return alphabeticalMovies[middle];
-                }
-
-                int alphabeticalOrder = string.Compare(alphabeticalMovies[middle].Title, title);
-
-                // If title exists before
-                if (alphabeticalOrder == -1)
-                { 
-                    return GetMovie(title, alphabeticalMovies, left, right - 1);
-                }
-
-                // If title exists after
-                if (alphabeticalOrder == 1)
-                {
-                    return GetMovie(title, alphabeticalMovies, left + 1, right);
-                }
-            }
-
-            return null;
-            
         }
 
         /// <summary>
