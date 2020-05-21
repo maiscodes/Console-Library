@@ -17,7 +17,7 @@ namespace CAB301
             // HomePage just provide functions and the library will control everything?
             // MemberMenuPage(member)
             // StaffMenuPage() just provide functions.
-            string[] movieNames = new string[] { "a Movie1", "k movie2", "c movie3", "g Movie1", "s movie2", "d movie3" };
+            string[] movieNames = new string[] { "a movie1", "k movie2", "c movie3", "g movie1", "s movie2", "d movie3" };
             string[] directorNames = new string[] { "director1", "director2", "director3", "director1", "director2", "director3" };
             string[] genres = new string[] { Genres.Action, Genres.SciFi, Genres.Drama, Genres.Action, Genres.SciFi, Genres.Drama };
             int[] durations = new int[] { 123, 124, 125, 123, 124, 125 };

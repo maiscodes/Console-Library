@@ -43,6 +43,30 @@ namespace CAB301
         }
 
         /// <summary>
+        /// Constructor method allowing number of copies to be defined.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="actors"></param>
+        /// <param name="director"></param>
+        /// <param name="duration"></param>
+        /// <param name="genre"></param>
+        /// <param name="classification"></param>
+        /// <param name="releaseDate"></param>
+        /// <param name="numberCopies"></param>
+        public Movie(string title, ArrayList actors, string director, int duration, string genre, string classification, DateTime releaseDate, int numberCopies)
+        {
+            this.Title = title;
+            this.Actors = actors;
+            this.Director = director;
+            this.Duration = duration;
+            this.Genre = genre;
+            this.Classification = classification; ;
+            this.ReleaseDate = releaseDate;
+            TotalDvds = numberCopies;
+            TotalBorrowed = 0;
+        }
+
+        /// <summary>
         /// Method to add to DVD Count.
         /// </summary>
         public void IncrementDVDCount()

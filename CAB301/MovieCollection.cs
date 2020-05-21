@@ -42,12 +42,6 @@ namespace CAB301
 
                     if ( alphabeticalOrder == -1 ) // Change to sorting by totalBorrowed. movie.TotalBorrowed <= checkNode.Movie.TotalBorrowed
                     {
-                        // If total numbers are equal- can still be sorted by alpabet. 
-                        //      if alphabet is less then then assing left. 
-                        //      if equal: check what's on both sides. 
-                                    
-                        //      if after then ssing right.
-
                         if ( checkNode.LeftNode == null ) // Put the movie in the left node or use as base
                         {
                             checkNode.LeftNode = new Node();
@@ -133,14 +127,17 @@ namespace CAB301
         /// <returns></returns>
         public Node RemoveParentPointer(Node parent, Node node)
         {
+
             if (parent == null) // Means Root
             {
                 return new Node();
             }
+
             int alphabeticalOrder = string.Compare(node.Movie.Title, parent.Movie.Title);
 
             if (alphabeticalOrder == -1) // Means if parent then should be on the leftnode. 
             {
+               
                 parent.LeftNode = null;
             }
 
@@ -148,7 +145,7 @@ namespace CAB301
             {
                 parent.RightNode = null;
             }
-
+          
             return parent;
 
         }
@@ -171,10 +168,7 @@ namespace CAB301
             }
 
             // Remove pointer 
-            Root = this.RemoveParentPointer(parent, node);
-
-            // Remove connection. CHECK Cause removing more than expected.
-            node = null;
+            this.RemoveParentPointer(parent, node);
 
             // Traverse through the left node. 
             foreach (Movie movie in displacedLeftMovies)
@@ -252,15 +246,14 @@ namespace CAB301
         /// <param name="parent"></param>
         public List<Movie> GetAlphabeticalListOfMovies(Node parent, List<Movie> movieList)
         {
-            // Return list of ascending order
-            if (parent.Movie != null)
+            if (parent.Movie != null) // Node has a movie and possibly movies in the left and/or right node
             {
-                if (parent.LeftNode != null )
+                if (parent.LeftNode != null ) 
                 {
                     GetAlphabeticalListOfMovies(parent.LeftNode, movieList);
                 }
 
-                movieList.Add(parent.Movie);
+                movieList.Add(parent.Movie); // Add each movie to the list
 
                 if (parent.RightNode != null)
                 {
@@ -305,7 +298,43 @@ namespace CAB301
         }
 
         // GetTopTen()
+        /// <summary>
+        /// Return the list of most borrowed movies. 
+        /// </summary>
+        /// <returns></returns>
+        public List<Movie> GetTopTenMovies()
+        {
+            List<Movie> topTen = new List<Movie>();
+
+            // Get all the movies into an array. 
+            topTen = this.GetAlphabeticalListOfMovies(Root, topTen);
+
+            // Sorting in descending order. 
+
+
+            // return top ten
+
+            return topTen;
+        }
+
+        /// <summary>
+        /// Display top ten movies on the console.
+        /// </summary>
+        /// <param name="movieList"></param>
+        public void DisplayTopTenMovies(List<Movie> movieList)
+        {
+            int count = 1; 
+            foreach(Movie movie in movieList)
+            {
+                Console.WriteLine("{0}. {1}", count, movie.Title);
+                count++;
+            }
+        }
+
+        // Display Top Ten
         // Traverse, sort, return information on top 10. 
+        // DO TONIGHT - and then get the main console app started. 
+        // Refine tomorrow.
 
         // AddDVD
         // Convert binary tree to array 
