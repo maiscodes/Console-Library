@@ -297,38 +297,51 @@ namespace CAB301
             }
         }
 
-        // GetTopTen()
         /// <summary>
-        /// Return the list of most borrowed movies. 
+        /// Given the movie list to sort and the number of movies to return. 
         /// </summary>
+        /// <param name="movieList"></param>
+        /// <param name="max"></param>
         /// <returns></returns>
-        public List<Movie> GetTopTenMovies()
-        {
-            List<Movie> topTen = new List<Movie>();
-
-            // Get all the movies into an array. 
-            topTen = this.GetAlphabeticalListOfMovies(Root, topTen);
-
-            // Sorting in descending order. 
-
+        public List<Movie> GetTopMovies(List<Movie> movieList, int max)
+        { 
+            // Sorting in descending order using...... whatever sort. 
+            // QUICKSORT ALGORITHM
 
             // return top ten
 
-            return topTen;
+            List<Movie> topMovies = new List<Movie>();
+
+            return topMovies;
         }
 
         /// <summary>
-        /// Display top ten movies on the console.
+        /// Write movie rankings to console. 
         /// </summary>
         /// <param name="movieList"></param>
-        public void DisplayTopTenMovies(List<Movie> movieList)
+        public void DisplayRankedMovies(List<Movie> movieList)
         {
-            int count = 1; 
-            foreach(Movie movie in movieList)
+            int count = 1;
+            foreach (Movie movie in movieList)
             {
                 Console.WriteLine("{0}. {1}", count, movie.Title);
                 count++;
             }
+        }
+
+        /// <summary>
+        /// Write the top ten movies on console.
+        /// </summary>
+        public void DisplayTopTenMovies()
+        {
+            List<Movie> allMovies = new List<Movie>();
+
+            // Get all the movies into an array. 
+            allMovies = GetAlphabeticalListOfMovies(Root, allMovies);
+
+            List<Movie> topMovies = GetTopMovies(allMovies, 10);
+
+            DisplayRankedMovies(topMovies);
         }
 
         // Display Top Ten
