@@ -110,7 +110,7 @@ namespace CAB301
         /// <summary>
         /// Display all movie information to string.
         /// </summary>
-        public void ToString()
+        public void Show()
         {
             string actorList = "";
             for (int a = 0; a < Actors.Count; a++)

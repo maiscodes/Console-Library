@@ -9,6 +9,7 @@ namespace CAB301
     class MovieCollection
     {
         public Node Root { get; set; }
+        public int orderCount { get; set; }
 
         public MovieCollection()
         {
@@ -152,13 +153,17 @@ namespace CAB301
             Node node = this.FindNode(Root, title);
             Node parent = this.FindParentNode(Root, node);
 
-            List<Movie> displacedLeftMovies = new List<Movie>();
+            int numberMovies = GetNumberMovies(node.LeftNode, 0);
+            Movie[] displacedLeftMovies = new Movie[numberMovies];
+            orderCount = 0;
             if (node.LeftNode != null)
             {
                 displacedLeftMovies = this.GetAlphabeticalListOfMovies(node.LeftNode, displacedLeftMovies);
             }
            
-            List<Movie> displacedRightMovies = new List<Movie>();
+            numberMovies = GetNumberMovies(node.LeftNode, 0);
+            Movie[] displacedRightMovies = new Movie[numberMovies];
+            orderCount = 0;
             if (node.RightNode != null)
             {
                 displacedRightMovies = this.GetAlphabeticalListOfMovies(node.RightNode, displacedRightMovies);
@@ -238,74 +243,85 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Return the alphabetical order of movies by performing an inorder traversal. Make into aray.
+        /// Returns the alphabetical order of movies by performing an inorder traversal. 
         /// </summary>
         /// <param name="parent"></param>
-        public List<Movie> GetAlphabeticalListOfMovies(Node parent, List<Movie> movieList)
+        public Movie[] GetAlphabeticalListOfMovies(Node parent,  Movie[] orderedMovies)
         {
             if (parent.Movie != null) // Node has a movie and possibly movies in the left and/or right node
             {
                 if (parent.LeftNode != null ) 
                 {
-                    GetAlphabeticalListOfMovies(parent.LeftNode, movieList);
+                    GetAlphabeticalListOfMovies(parent.LeftNode, orderedMovies);
                 }
 
-                movieList.Add(parent.Movie); // Add each movie to the list
+                orderedMovies[orderCount] = parent.Movie;
+                orderCount++;
 
                 if (parent.RightNode != null)
                 {
-                    GetAlphabeticalListOfMovies(parent.RightNode, movieList);
+                    GetAlphabeticalListOfMovies(parent.RightNode, orderedMovies);
                 }
 
             }
-            return movieList;
+            return orderedMovies;
         }
 
         /// <summary>
-        /// Display the information for every movie in the library. Move out. 
+        /// An inorder traversal to return the current movie count.
+        /// </summary>
+        /// <param name="parent"></param>
+        public int GetNumberMovies(Node parent, int currentCount)
+        {
+            if (parent != null)
+            {
+                if (parent.Movie != null)
+                {
+                    if (parent.LeftNode != null)
+                    {
+                        currentCount = GetNumberMovies(parent.LeftNode, currentCount);
+                    }
+
+                    currentCount++;
+
+                    if (parent.RightNode != null)
+                    {
+                        currentCount = GetNumberMovies(parent.RightNode, currentCount);
+                    }
+                }
+            }
+            return currentCount;
+        }
+
+        /// <summary>
+        /// Display the information for every movie in the library. 
         /// </summary>
         public void DisplayAllMovies()
         {
             string titleSeparator = "==================================================";
-            List<Movie> movies = new List<Movie>();
-            movies = this.GetAlphabeticalListOfMovies(Root, movies);
-
             Console.WriteLine(titleSeparator);
             Console.WriteLine("All Movies");
-            Console.WriteLine(titleSeparator);
+            Console.WriteLine(titleSeparator); // MOVE OUT.
+
+            int numberMovies = GetNumberMovies(Root, 0);
+            Movie[] movies = new Movie[numberMovies];
+            orderCount = 0;
+            movies = GetAlphabeticalListOfMovies(Root, movies);
 
             foreach (Movie movie in movies)
             {
-                movie.ToString();
+                movie.Show();
             }
         }
 
         /// <summary>
-        /// Given the movie list to sort and the number of movies to return. 
+        /// Perform merge sort to get list of movies in descending order of popularity.
         /// </summary>
-        /// <param name="movieList"></param>
-        /// <param name="max"></param>
+        /// <param name="unsorted"></param>
         /// <returns></returns>
-        public Movie[] GetTopMovies(List<Movie> movieList, int max)
-        {
-            Movie[] movieArray = movieList.ToArray();
-
-            movieArray = MergeSort(movieArray);
-
-            Movie[] topMovies = new Movie[max];
-
-            for (int m = 0; m < movieArray.Length; m++)
-            {
-                topMovies[m] = movieArray[m];
-            }
-
-            return topMovies;
-        }
-
-
         public Movie[] MergeSort(Movie[] unsorted)
         {
-            if (unsorted.Length <= 1)
+            if (unsorted.Length <= 1) 
             {
                 return unsorted;
             }
@@ -398,7 +414,7 @@ namespace CAB301
         /// <param name="movieList"></param>
         public void DisplayRankedMovies(Movie[] movieList)
         {
-            int count = 1;
+            int count = 0;
             foreach (Movie movie in movieList)
             {
                 if (movie != null)
@@ -413,19 +429,42 @@ namespace CAB301
             }
         }
 
+        public Movie[] GetTopMovies(Movie[] movies, int max)
+        {
+            Movie[] topMovies = new Movie[max];
+            if (movies.Length >= max)
+            {
+                for (int m = 0; m < max; m++)
+                {
+                    topMovies[m] = movies[m];
+                }
+            }
+            else
+            {
+                int count = 0;
+                foreach(Movie movie in movies)
+                {
+                    topMovies[count] = movie;
+                    count++;
+                }
+
+            }
+            return topMovies;
+
+        }
+
         /// <summary>
-        /// Write the top ten movies on console.
+        /// Write the top ten movie rankings to console.
         /// </summary>
         public void DisplayTopTenMovies()
         {
-            List<Movie> allMovies = new List<Movie>();
-
-            // Get all the movies into an array. 
+            int numberMovies = GetNumberMovies(Root, 0);
+            Movie[] allMovies = new Movie[numberMovies];
+            orderCount = 0;
             allMovies = GetAlphabeticalListOfMovies(Root, allMovies);
-
-            Movie[] topMovies = GetTopMovies(allMovies, 10);
-
-            DisplayRankedMovies(topMovies);
+            allMovies = MergeSort(allMovies);
+            Movie[] topTenMovies = GetTopMovies(allMovies, 10);
+            DisplayRankedMovies(topTenMovies);
         }
 
     }

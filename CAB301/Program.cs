@@ -99,7 +99,11 @@ namespace CAB301
             movieCollection.AddNewDVD(movie2);
 
 
-            List<Movie> alphabeticMovies = new List<Movie>();
+            //List<Movie> alphabeticMovies = new List<Movie>();
+            int numberMovies = movieCollection.GetNumberMovies(movieCollection.Root, 0);
+            Movie[] alphabeticMovies = new Movie[numberMovies];
+            movieCollection.orderCount = 0;
+
             alphabeticMovies = movieCollection.GetAlphabeticalListOfMovies(movieCollection.Root, alphabeticMovies);
             
             foreach (Movie amovie in alphabeticMovies)

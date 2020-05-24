@@ -35,17 +35,17 @@ namespace CAB301
             
             while (!isInputValid)
             {
-                Console.WriteLine("Please make a selection(1 - 2, or 0 to exit):");
+                Console.Write("Please make a selection(1 - 2, or 0 to exit):");
                 string input = Console.ReadLine();
 
                 if (String.Equals(input, "1"))
                 {
                     // Enter username
-                    Console.WriteLine("Enter staff username: ");
+                    Console.Write("Enter username: ");
                     string inputUsername = Console.ReadLine();
 
                     // Enter password
-                    Console.WriteLine("Enter staff password: ");
+                    Console.Write("Enter password: ");
                     string inputPassword = Console.ReadLine();
 
                     // Perform staff credential validation
@@ -64,11 +64,11 @@ namespace CAB301
                 else if (String.Equals(input, "2"))
                 {
                     // Enter username
-                    Console.WriteLine("Enter member username: ");
+                    Console.Write("Enter member username: ");
                     string inputUsername = Console.ReadLine();
 
                     // Enter password
-                    Console.WriteLine("Enter member password: ");
+                    Console.Write("Enter member password: ");
                     string inputPassword = Console.ReadLine();
 
                     // Perform member credential validation
