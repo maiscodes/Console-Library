@@ -11,7 +11,7 @@ namespace CAB301
     {
         static void Main(string[] args)
         {
-            
+            /*
             // Today:
             // Binary tree, balancing out,  testing it, library console application hioerarchy and setup. 
             // Library
@@ -22,9 +22,10 @@ namespace CAB301
             string[] directorNames = new string[] { "director1", "director2", "director3", "director1", "director2", "director3" };
             string[] genres = new string[] { Genres.Action, Genres.SciFi, Genres.Drama, Genres.Action, Genres.SciFi, Genres.Drama };
             int[] durations = new int[] { 123, 124, 125, 123, 124, 125 };
-            string[] classifications = new string[] { Classifications.General, Classifications.General, Classifications.General, Classifications.General, Classifications.General, Classifications.General };
-            DateTime[] releaseDates = new DateTime[] { new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23) }; 
-            ArrayList[] actorLists = new ArrayList[] { new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" } };
+            Classifications[] classifications = new Classifications[] { Classifications.G, Classifications.G, Classifications.G, Classifications.PG, Classifications.M, Classifications.MA};
+            DateTime[] releaseDates = new DateTime[] { new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23), new DateTime(2019, 06, 23) };
+            //ArrayList[] actorLists = new ArrayList[] { new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" }, new ArrayList() { "James Cordon", "Shawn Mendes" } };
+            string[] actorLists = new string[] { "James Cordon and Shawn Mendes", "James Cordon and Shawn Mendes", "James Cordon and Shawn Mendes", "James Cordon and Shawn Mendes", "James Cordon and Shawn Mendes", "James Cordon and Shawn Mendes"};
             ArrayList movies = new ArrayList();
 
             Movie movie1 = new Movie(movieNames[0], actorLists[0], directorNames[0], durations[0], genres[0], classifications[0], releaseDates[0]);
@@ -53,9 +54,9 @@ namespace CAB301
             string director = "Mickey Mouse";
             string genre = Genres.Action;
             int duration = 124;
-            string classification = Classifications.General;
+            Classifications classification = Classifications.G;
             DateTime releaseDate = new DateTime(2019, 06, 23);
-            ArrayList actors = new ArrayList() { "James Cordon", "Shawn Mendes" };
+            string actors = "James Cordon and Shawn Mendes";
             Movie movie = new Movie(movieName, actors, director, duration, genre, classification, releaseDate);
             Console.WriteLine("Current Movie Count should be 1: {0} and total borrowed should be {1}", movie.TotalDvds, movie.TotalBorrowed);
             movie.IncrementDVDCount();
@@ -160,13 +161,20 @@ namespace CAB301
             movieCollection.ReturnMovie("s movie2");
             movieCollection.RemoveDVD("s movie2");
             movieCollection.DisplayTopTenMovies();
+            */
 
             // Test staff and mainmenu 
+            MovieCollection movieCollection = new MovieCollection();
             Staff staff = new Staff("staff", "today123");
             MemberCollection members = new MemberCollection();
             members.AddNewMember("Maisie", "Vuong", "Dibley", "1234", "1234");
 
             MainMenu mainMenu = new MainMenu(members, staff);
+            StaffMenu staffMenu = new StaffMenu(members, movieCollection);
+
+            // Connect all pages 
+            mainMenu.StaffMenu = staffMenu;
+            staffMenu.MainMenu = mainMenu;
             mainMenu.Load();
 
             // TESTCASES for MAINMENU

@@ -10,26 +10,26 @@ namespace CAB301
     public class Movie
     {
         public string Title { get; set; }
-        public ArrayList Actors { get; set; }
+        public string Actors { get; set; }
         public string Director { get; set; }
         public int Duration { get; set; }
         public string Genre { get; set; }
-        public string Classification { get; set; }
+        public Classifications Classification { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int TotalDvds { get; set; }
         public int TotalBorrowed { get; set; }
 
-       /// <summary>
-       /// Constructor method.
-       /// </summary>
-       /// <param name="title"></param>
-       /// <param name="actors"></param>
-       /// <param name="director"></param>
-       /// <param name="duration"></param>
-       /// <param name="genre"></param>
-       /// <param name="classification"></param>
-       /// <param name="releaseDate"></param>
-        public Movie(string title, ArrayList actors, string director, int duration, string genre, string classification, DateTime releaseDate)
+        /// <summary>
+        /// Constructor method.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="actors"></param>
+        /// <param name="director"></param>
+        /// <param name="duration"></param>
+        /// <param name="genre"></param>
+        /// <param name="classification"></param>
+        /// <param name="releaseDate"></param>
+        public Movie(string title, string actors, string director, int duration, string genre, Classifications classification, DateTime releaseDate)
         {
             this.Title = title;
             this.Actors = actors;
@@ -43,7 +43,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Constructor method allowing number of copies to be defined.
+        /// Constructor method allowing for number of copies to be defined.
         /// </summary>
         /// <param name="title"></param>
         /// <param name="actors"></param>
@@ -53,14 +53,14 @@ namespace CAB301
         /// <param name="classification"></param>
         /// <param name="releaseDate"></param>
         /// <param name="numberCopies"></param>
-        public Movie(string title, ArrayList actors, string director, int duration, string genre, string classification, DateTime releaseDate, int numberCopies)
+        public Movie(string title, string actors, string director, int duration, string genre, Classifications classification, DateTime releaseDate, int numberCopies)
         {
             this.Title = title;
             this.Actors = actors;
             this.Director = director;
             this.Duration = duration;
             this.Genre = genre;
-            this.Classification = classification; ;
+            this.Classification = classification; 
             this.ReleaseDate = releaseDate;
             TotalDvds = numberCopies;
             TotalBorrowed = 0;
@@ -112,20 +112,15 @@ namespace CAB301
         /// </summary>
         public void Show()
         {
-            string actorList = "";
-            for (int a = 0; a < Actors.Count; a++)
-            {
-                actorList += Actors[a];
-                if (a < Actors.Count - 1)
-                {
-                    actorList += ", ";
-                }
-            }
-
-            Console.WriteLine("TITLE: {0} (released {1})", Title, ReleaseDate.ToString("MM/dd/yyyy"));
-            Console.WriteLine("\tA movie directed by {0}, starring the actors: {1}.", Director, actorList);
-            Console.WriteLine("\tGenre: {0}. Classification: {1}. Duration: {2} minutes. DVDs available: {3}.", Genre, Classification, Duration, TotalDvds);
-            Console.WriteLine("\n");
+            Console.WriteLine("\nTitle: {0}", Title);
+            Console.WriteLine("Release date: {0}", ReleaseDate.ToString("MM/dd/yyyy"));
+            Console.WriteLine("Directed by: {0}", Director);
+            Console.WriteLine("Starring: {0}", Actors);
+            Console.WriteLine("Genre: {0}", Genre);
+            Console.WriteLine("Classification: {0}", Classification.ToString());
+            Console.WriteLine("Duration: {0} minutes", Duration);
+            Console.WriteLine("DVDs available: {0}", TotalDvds);
+            Console.WriteLine("\n======================================");
         }
 
     }

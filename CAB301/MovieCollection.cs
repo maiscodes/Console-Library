@@ -6,7 +6,7 @@ namespace CAB301
     /// <summary>
     /// Binary search tree containing movies ordered by alphabetical order. TODO: FIXX tomorrow/Friday.
     /// </summary>
-    class MovieCollection
+    public class MovieCollection
     {
         public Node Root { get; set; }
         public int orderCount { get; set; }
