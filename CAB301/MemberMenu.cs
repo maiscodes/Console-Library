@@ -12,7 +12,6 @@ namespace CAB301
         public override void Load()
         {
 
-
         }
     }
 }

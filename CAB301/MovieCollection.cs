@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace CAB301
 {
@@ -176,7 +173,7 @@ namespace CAB301
                 this.AddNewDVD(movie);
             }
 
-            // Traverse through the righ node. 
+            // Traverse through the right node. 
             foreach (Movie movie in displacedRightMovies)
             {
                 this.AddNewDVD(movie);
@@ -241,7 +238,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Return the alphabetical order of movies by performing an inorder traversal.
+        /// Return the alphabetical order of movies by performing an inorder traversal. Make into aray.
         /// </summary>
         /// <param name="parent"></param>
         public List<Movie> GetAlphabeticalListOfMovies(Node parent, List<Movie> movieList)
@@ -264,7 +261,6 @@ namespace CAB301
             return movieList;
         }
 
-
         /// <summary>
         /// Display the information for every movie in the library. Move out. 
         /// </summary>
@@ -280,20 +276,7 @@ namespace CAB301
 
             foreach (Movie movie in movies)
             {
-                string actorList = "";
-                for(int a = 0; a < movie.Actors.Count; a++)
-                {
-                    actorList += movie.Actors[a];
-                    if ( a < movie.Actors.Count - 1 )
-                    {
-                        actorList += ", ";
-                    }
-                }
- 
-                Console.WriteLine("TITLE: {0} (released {1})", movie.Title, movie.ReleaseDate.ToString("MM/dd/yyyy"));
-                Console.WriteLine("\tA movie directed by {0}, starring the actors: {1}.", movie.Director, actorList);
-                Console.WriteLine("\tGenre: {0}. Classification: {1}. Duration: {2} minutes. DVDs available: {3}.", movie.Genre, movie.Classification, movie.Duration, movie.TotalDvds);
-                Console.WriteLine("\n");
+                movie.ToString();
             }
         }
 
@@ -303,28 +286,129 @@ namespace CAB301
         /// <param name="movieList"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public List<Movie> GetTopMovies(List<Movie> movieList, int max)
-        { 
-            // Sorting in descending order using...... whatever sort. 
-            // QUICKSORT ALGORITHM
+        public Movie[] GetTopMovies(List<Movie> movieList, int max)
+        {
+            Movie[] movieArray = movieList.ToArray();
 
-            // return top ten
+            movieArray = MergeSort(movieArray);
 
-            List<Movie> topMovies = new List<Movie>();
+            Movie[] topMovies = new Movie[max];
+
+            for (int m = 0; m < movieArray.Length; m++)
+            {
+                topMovies[m] = movieArray[m];
+            }
 
             return topMovies;
+        }
+
+
+        public Movie[] MergeSort(Movie[] unsorted)
+        {
+            if (unsorted.Length <= 1)
+            {
+                return unsorted;
+            }
+
+            int middle = unsorted.Length / 2;
+            Movie[] leftMovies = new Movie[middle];
+            Movie[] rightMovies = new Movie[unsorted.Length - middle];
+
+            for (int m = 0; m < middle; m++)
+            {
+                leftMovies[m] = unsorted[m];
+            }
+
+            for (int m = 0; m < unsorted.Length - middle; m++)
+            {
+                rightMovies[m] = unsorted[m + middle];
+            }
+
+            leftMovies = MergeSort(leftMovies);
+            rightMovies = MergeSort(rightMovies);
+            return Merge(leftMovies, rightMovies);
+           
+        }
+
+        public Movie[] Merge(Movie[] left, Movie[] right)
+        {
+            int leftStart = 0;
+            int rightStart = 0;
+            int mergedStart = 0;
+            Movie[] sortedMovies = new Movie[left.Length + right.Length];
+
+            while (leftStart < left.Length && rightStart < right.Length)
+            {
+                if (left[leftStart] != null && right[rightStart] != null)
+                {
+                    if (left[leftStart].TotalBorrowed >= right[rightStart].TotalBorrowed)
+                    {
+                        sortedMovies[mergedStart] = left[leftStart];
+                        leftStart++;
+                    }
+                    else
+                    {
+                        sortedMovies[mergedStart] = right[rightStart];
+                        rightStart++;
+                    }
+                    mergedStart++;
+                }
+                else
+                {
+                    if (right[rightStart] != null) 
+                    {
+                        sortedMovies[mergedStart] = right[rightStart];
+                        mergedStart++;
+                    }
+
+                    else if (left[leftStart] != null) 
+                    {
+                        sortedMovies[mergedStart] = left[leftStart];
+                        mergedStart++;
+                    }
+                    leftStart++;
+                    rightStart++;
+                }
+            }
+
+            if (leftStart < left.Length) // Add remaining movies.
+            {
+                for (int m = leftStart; m < left.Length; m ++)
+                {
+                    sortedMovies[mergedStart] = left[m];
+                    mergedStart++;
+                }
+            }
+
+            if (rightStart < right.Length)
+            {
+                for (int m = rightStart; m < right.Length; m++)
+                {
+                    sortedMovies[mergedStart] = right[m];
+                    mergedStart++;
+                }
+            }
+           
+            return sortedMovies;
         }
 
         /// <summary>
         /// Write movie rankings to console. 
         /// </summary>
         /// <param name="movieList"></param>
-        public void DisplayRankedMovies(List<Movie> movieList)
+        public void DisplayRankedMovies(Movie[] movieList)
         {
             int count = 1;
             foreach (Movie movie in movieList)
             {
-                Console.WriteLine("{0}. {1}", count, movie.Title);
+                if (movie != null)
+                {
+                    Console.WriteLine("{0}. {1}", count, movie.Title);
+                }
+                else
+                {
+                    Console.WriteLine("{0}. ", count);
+                }
                 count++;
             }
         }
@@ -339,27 +423,10 @@ namespace CAB301
             // Get all the movies into an array. 
             allMovies = GetAlphabeticalListOfMovies(Root, allMovies);
 
-            List<Movie> topMovies = GetTopMovies(allMovies, 10);
+            Movie[] topMovies = GetTopMovies(allMovies, 10);
 
             DisplayRankedMovies(topMovies);
         }
 
-        // Display Top Ten
-        // Traverse, sort, return information on top 10. 
-        // DO TONIGHT - and then get the main console app started. 
-        // Refine tomorrow.
-
-        // AddDVD
-        // Convert binary tree to array 
-        // sort array
-        // check if array is equal to sorted array 
-        // convert sorted array to balanced tree.
-        // Find 
-        // convert to array 
-        // work backwards (most popular)
-        // Traverse Whatever order is in highest to lowest. 
-        // convert to array. from smallest to biggest.
-        // sort
-        // work backwards. 
     }
 }

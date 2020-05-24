@@ -11,6 +11,7 @@ namespace CAB301
     {
         static void Main(string[] args)
         {
+            
             // Today:
             // Binary tree, balancing out,  testing it, library console application hioerarchy and setup. 
             // Library
@@ -78,8 +79,8 @@ namespace CAB301
 
             // Testing MemberCollections class
             MemberCollection memberList = new MemberCollection();
-            memberList.AddNewMember(member);
-            Console.WriteLine("Member count should be 1: {0}", memberList.memberCount);
+            memberList.AddNewMember(firstName, lastName, address, contactNumber, password);
+            Console.WriteLine("Member count should be 1: {0}", memberList.MemberCount);
             string memberContact = memberList.GetMemberContactDetails("John", "Smith");
             Console.WriteLine("Member number should be 0405852561 {0}", memberContact);
             memberContact = memberList.GetMemberContactDetails("JohnX", "Smith");
@@ -93,6 +94,10 @@ namespace CAB301
             {
                movieCollection.AddNewDVD(moviee);
             }
+
+            movieCollection.AddNewDVD(movie1);
+            movieCollection.AddNewDVD(movie2);
+
 
             List<Movie> alphabeticMovies = new List<Movie>();
             alphabeticMovies = movieCollection.GetAlphabeticalListOfMovies(movieCollection.Root, alphabeticMovies);
@@ -109,10 +114,67 @@ namespace CAB301
             movieCollection.DisplayAllMovies();
             movieCollection.ReturnMovie("k movie2");
             movieCollection.DisplayAllMovies();
-            movieCollection.RemoveDVD("k movie2");
-            movieCollection.DisplayAllMovies();
-            movieCollection.RemoveDVD("d movie3");
-            movieCollection.DisplayAllMovies();
+            //movieCollection.RemoveDVD("k movie2");
+            //movieCollection.DisplayAllMovies();
+            //movieCollection.RemoveDVD("d movie3");
+            //movieCollection.DisplayAllMovies();
+
+            // Test sort function. 
+            movieCollection.BorrowMovie("a movie1");
+            movieCollection.ReturnMovie("a movie1");
+            movieCollection.BorrowMovie("a movie1");
+            movieCollection.ReturnMovie("a movie1");
+            movieCollection.BorrowMovie("a movie1");
+            movieCollection.ReturnMovie("a movie1");
+            movieCollection.BorrowMovie("a movie1");
+            movieCollection.ReturnMovie("a movie1");
+            movieCollection.BorrowMovie("k movie2");
+            movieCollection.ReturnMovie("k movie2");
+            movieCollection.BorrowMovie("k movie2");
+            movieCollection.ReturnMovie("k movie2");
+            movieCollection.BorrowMovie("c movie3");
+            movieCollection.ReturnMovie("c movie3");
+            movieCollection.BorrowMovie("c movie3");
+            movieCollection.ReturnMovie("c movie3");
+            movieCollection.BorrowMovie("c movie3");
+            movieCollection.ReturnMovie("c movie3");
+            movieCollection.BorrowMovie("c movie3");
+            movieCollection.ReturnMovie("c movie3");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.BorrowMovie("s movie2");
+            movieCollection.ReturnMovie("s movie2");
+            movieCollection.RemoveDVD("s movie2");
+            movieCollection.DisplayTopTenMovies();
+
+            // Test staff and mainmenu 
+            Staff staff = new Staff("staff", "today123");
+            MemberCollection members = new MemberCollection();
+            members.AddNewMember("Maisie", "Vuong", "Dibley", "1234", "1234");
+
+            MainMenu mainMenu = new MainMenu(members, staff);
+            mainMenu.Load();
+
+            // TESTCASES for MAINMENU
+            // If anything else than 1,2,0 then repeat loop
+
+            // If correct staff then print 
+            // if incorrect staff, say and then repeat loop 
+
+            //if correct member then print, 
+            // if incorrect member, say and then repeat loop
+
+
 
 
             Console.WriteLine("Hello World!");

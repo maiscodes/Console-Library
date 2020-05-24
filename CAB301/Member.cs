@@ -75,6 +75,5 @@ namespace CAB301
         {
             return $"{Surname}{FirstName}";
         }
-
     }
 }

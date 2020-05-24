@@ -107,6 +107,26 @@ namespace CAB301
             TotalBorrowed += 1;
         }
 
+        /// <summary>
+        /// Display all movie information to string.
+        /// </summary>
+        public void ToString()
+        {
+            string actorList = "";
+            for (int a = 0; a < Actors.Count; a++)
+            {
+                actorList += Actors[a];
+                if (a < Actors.Count - 1)
+                {
+                    actorList += ", ";
+                }
+            }
+
+            Console.WriteLine("TITLE: {0} (released {1})", Title, ReleaseDate.ToString("MM/dd/yyyy"));
+            Console.WriteLine("\tA movie directed by {0}, starring the actors: {1}.", Director, actorList);
+            Console.WriteLine("\tGenre: {0}. Classification: {1}. Duration: {2} minutes. DVDs available: {3}.", Genre, Classification, Duration, TotalDvds);
+            Console.WriteLine("\n");
+        }
 
     }
 }
