@@ -98,9 +98,9 @@ Welcome to the Community Library
             if (member != null)
             {
                 isInputValid = !isInputValid;
-                Console.WriteLine("LOAD MEMBER MENU WITH FOCUS MEMBER: {0}", member.FirstName);
-                // TODO:
-
+                Console.WriteLine("\nSuccessful Authentication! Logging in as {0}", member.GetUserName());
+                MemberMenu.Load(member);
+               
             }
             else
             {

@@ -20,22 +20,21 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Method to add new member to collections.
-        /// TODO: Add alphabetically so can perform binary search.
+        /// Add a new member to the collecions class.
         /// </summary>
-        /// <param name="firstName"></param>
-        /// <param name="surname"></param>
-        /// <param name="address"></param>
-        /// <param name="contactNumber"></param>
-        /// <param name="password"></param>
-        public void AddNewMember(string firstName, string surname, string address, string contactNumber, string password)
-        {   
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public bool AddNewMember(Member member)
+        {
+            bool isAdded = false;
             if (this.MemberCount < 10)
             {
-                Member member = new Member(firstName, surname, address, contactNumber, password);
+                
                 Members[this.MemberCount] = member;
                 this.MemberCount++;
+                isAdded = true;
             }
+            return isAdded;
         }
 
         /// <summary>

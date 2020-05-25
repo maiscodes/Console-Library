@@ -8,7 +8,7 @@ namespace CAB301
     /// Class representing Movie Classifications.
     /// TODO: Make more object orientated.
     /// </summary>
-    public enum Classifications
+    public enum Classification
     {
         G,
         PG,

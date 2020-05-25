@@ -87,6 +87,11 @@ namespace CAB301
         /// <returns></returns>
         public Node FindParentNode(Node parent, Node node)
         {
+            if (node == null || parent.Movie == null)
+            {
+                return null;
+            }
+
             int alphabeticalOrder = string.Compare(node.Movie.Title, parent.Movie.Title);
 
             if (alphabeticalOrder == -1) // Means if parent then should be on the leftnode. 
@@ -125,7 +130,6 @@ namespace CAB301
         /// <returns></returns>
         public Node RemoveParentPointer(Node parent, Node node)
         {
-
             if (parent == null) // Means Root
             {
                 return new Node();
@@ -147,44 +151,60 @@ namespace CAB301
             return parent;
 
         }
-        public Node RemoveDVD(string title)
+        public bool RemoveDVD(string title)
         {
+            bool isOperationSuccessfull = false;
             // Get node
-            Node node = this.FindNode(Root, title);
-            Node parent = this.FindParentNode(Root, node);
-
-            int numberMovies = GetNumberMovies(node.LeftNode, 0);
-            Movie[] displacedLeftMovies = new Movie[numberMovies];
-            orderCount = 0;
-            if (node.LeftNode != null)
+            try
             {
-                displacedLeftMovies = this.GetAlphabeticalListOfMovies(node.LeftNode, displacedLeftMovies);
+                Node node = this.FindNode(Root, title);
+
+                Node parent = this.FindParentNode(Root, node);
+
+                if (node != null) 
+                {
+                    node.Movie = null;
+
+                    int numberMovies = GetNumberMovies(node.LeftNode, 0);
+                    Movie[] displacedLeftMovies = new Movie[numberMovies];
+                    orderCount = 0;
+                    if (node.LeftNode != null)
+                    {
+                        displacedLeftMovies = this.GetAlphabeticalListOfMovies(node.LeftNode, displacedLeftMovies);
+                    }
+
+                    numberMovies = GetNumberMovies(node.RightNode, 0);
+                    Movie[] displacedRightMovies = new Movie[numberMovies];
+                    orderCount = 0;
+                    if (node.RightNode != null)
+                    {
+                        displacedRightMovies = this.GetAlphabeticalListOfMovies(node.RightNode, displacedRightMovies);
+                    }
+
+                    // Remove pointer 
+                    this.RemoveParentPointer(parent, node);
+
+                    // Traverse through the left node. 
+                    foreach (Movie movie in displacedLeftMovies)
+                    {
+                        this.AddNewDVD(movie);
+                    }
+
+                    // Traverse through the right node. 
+                    foreach (Movie movie in displacedRightMovies)
+                    {
+                        this.AddNewDVD(movie);
+                    }
+
+                    isOperationSuccessfull = true;
+                }
             }
-           
-            numberMovies = GetNumberMovies(node.LeftNode, 0);
-            Movie[] displacedRightMovies = new Movie[numberMovies];
-            orderCount = 0;
-            if (node.RightNode != null)
+            catch
             {
-                displacedRightMovies = this.GetAlphabeticalListOfMovies(node.RightNode, displacedRightMovies);
+                throw;
             }
 
-            // Remove pointer 
-            this.RemoveParentPointer(parent, node);
-
-            // Traverse through the left node. 
-            foreach (Movie movie in displacedLeftMovies)
-            {
-                this.AddNewDVD(movie);
-            }
-
-            // Traverse through the right node. 
-            foreach (Movie movie in displacedRightMovies)
-            {
-                this.AddNewDVD(movie);
-            }
-
-            return Root;
+            return isOperationSuccessfull;
         }
 
         /// <summary>
@@ -194,6 +214,11 @@ namespace CAB301
         /// <param name="parent"></param>
         public Node FindNode(Node parent, string title)
         {
+            if (parent == null || parent.Movie == null)
+            {
+                return null;
+            }
+
             int order = string.Compare(title, parent.Movie.Title);
 
             if (order == 0) // Title matches.
@@ -221,14 +246,25 @@ namespace CAB301
         /// worked out how the console works. Alphabetical evertime new movie is added.
         /// </summary>
         /// <param name="movie"></param>
-        public void BorrowMovie(string title)
+        public Movie BorrowMovie(string title)
         {
-            Movie movie = this.FindNode(Root, title).Movie;
+            Node node = this.FindNode(Root, title);
+
+            if (node == null)
+            {
+                return null;
+            }
+
+            Movie movie = node.Movie;
+
             if (movie.IsAvailable())
             {
                 movie.DecreaseDVDCount();
                 movie.IncrementBorrowedCount();
+                return movie;
             }
+
+            return null; 
 
         }
 
@@ -236,10 +272,18 @@ namespace CAB301
         /// Given the title of a movie the DVD number is increased.
         /// </summary>
         /// <param name="title"></param>
-        public void ReturnMovie(string title)
+        public Movie ReturnMovie(string title)
         {
-            Movie movie = this.FindNode(Root, title).Movie; 
+            Node node = this.FindNode(Root, title);
+
+            if (node == null)
+            {
+                return null;
+            }
+
+            Movie movie = node.Movie;
             movie.IncrementDVDCount();
+            return movie;
         }
 
         /// <summary>
@@ -298,11 +342,6 @@ namespace CAB301
         /// </summary>
         public void DisplayAllMovies()
         {
-            string titleSeparator = "==================================================";
-            Console.WriteLine(titleSeparator);
-            Console.WriteLine("All Movies");
-            Console.WriteLine(titleSeparator); // MOVE OUT.
-
             int numberMovies = GetNumberMovies(Root, 0);
             Movie[] movies = new Movie[numberMovies];
             orderCount = 0;

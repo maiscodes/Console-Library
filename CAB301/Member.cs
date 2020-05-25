@@ -40,9 +40,11 @@ namespace CAB301
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        public bool IsAbleToBorrow(Movie movie)
+        public bool IsAbleToBorrow(string title)
         {
-            return (Movies.Count <= 9 && !Movies.Contains(movie));
+            bool isUnderLimit = Movies.Count <= 9;
+            bool isDuplicate = HasMovie(title);
+            return isUnderLimit && !isDuplicate;
         }
 
         /// <summary>
@@ -64,7 +66,23 @@ namespace CAB301
             {
                 Movies.Remove(movie);
             }
+        }
 
+        /// <summary>
+        /// Given the title checks if user already has movie.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public bool HasMovie(string title)
+        {
+            foreach (Movie movie in Movies)
+            {
+                if (movie.Title == title)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>

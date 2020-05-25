@@ -163,18 +163,28 @@ namespace CAB301
             movieCollection.DisplayTopTenMovies();
             */
 
-            // Test staff and mainmenu 
+            // Create the Data Structures
             MovieCollection movieCollection = new MovieCollection();
             Staff staff = new Staff("staff", "today123");
             MemberCollection members = new MemberCollection();
-            members.AddNewMember("Maisie", "Vuong", "Dibley", "1234", "1234");
+            Member member = new Member("Maisie", "Vuong", "Dibley", "1234", "1234");
+            members.AddNewMember(member);
+            Movie inuyasha = new Movie("Inuyasha", "Inuyasha and Kagome", "Rumiko Takahashi", 123, Genres.Other, Classification.M, 2019);
+            Movie endgame = new Movie("Endgame", "Chris Evans", "Russo Brothers", 300, Genres.Action, Classification.MA, 2019);
+            movieCollection.AddNewDVD(inuyasha);
+            movieCollection.AddNewDVD(endgame);
 
+
+            // Create the console GUI
             MainMenu mainMenu = new MainMenu(members, staff);
             StaffMenu staffMenu = new StaffMenu(members, movieCollection);
+            MemberMenu memberMenu = new MemberMenu(movieCollection);
 
             // Connect all pages 
             mainMenu.StaffMenu = staffMenu;
+            mainMenu.MemberMenu = memberMenu;
             staffMenu.MainMenu = mainMenu;
+            memberMenu.MainMenu = mainMenu;
             mainMenu.Load();
 
             // TESTCASES for MAINMENU
@@ -186,6 +196,8 @@ namespace CAB301
             //if correct member then print, 
             // if incorrect member, say and then repeat loop
 
+            // Test cases for StaffMENU
+            // Creating movie, invalid inputs. Display
 
 
 

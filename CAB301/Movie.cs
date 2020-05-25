@@ -14,8 +14,8 @@ namespace CAB301
         public string Director { get; set; }
         public int Duration { get; set; }
         public string Genre { get; set; }
-        public Classifications Classification { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public Classification Classification { get; set; }
+        public int ReleaseDate { get; set; }
         public int TotalDvds { get; set; }
         public int TotalBorrowed { get; set; }
 
@@ -29,7 +29,7 @@ namespace CAB301
         /// <param name="genre"></param>
         /// <param name="classification"></param>
         /// <param name="releaseDate"></param>
-        public Movie(string title, string actors, string director, int duration, string genre, Classifications classification, DateTime releaseDate)
+        public Movie(string title, string actors, string director, int duration, string genre, Classification classification, int releaseDate)
         {
             this.Title = title;
             this.Actors = actors;
@@ -53,7 +53,7 @@ namespace CAB301
         /// <param name="classification"></param>
         /// <param name="releaseDate"></param>
         /// <param name="numberCopies"></param>
-        public Movie(string title, string actors, string director, int duration, string genre, Classifications classification, DateTime releaseDate, int numberCopies)
+        public Movie(string title, string actors, string director, int duration, string genre, Classification classification, int releaseDate, int numberCopies)
         {
             this.Title = title;
             this.Actors = actors;
@@ -113,14 +113,15 @@ namespace CAB301
         public void Show()
         {
             Console.WriteLine("\nTitle: {0}", Title);
-            Console.WriteLine("Release date: {0}", ReleaseDate.ToString("MM/dd/yyyy"));
+            Console.WriteLine("Release date: {0}", ReleaseDate.ToString());
             Console.WriteLine("Directed by: {0}", Director);
             Console.WriteLine("Starring: {0}", Actors);
             Console.WriteLine("Genre: {0}", Genre);
             Console.WriteLine("Classification: {0}", Classification.ToString());
             Console.WriteLine("Duration: {0} minutes", Duration);
             Console.WriteLine("DVDs available: {0}", TotalDvds);
-            Console.WriteLine("\n======================================");
+            Console.WriteLine("Times borrowed: {0}", TotalBorrowed);
+            Console.WriteLine("\n_____________________________");
         }
 
     }
