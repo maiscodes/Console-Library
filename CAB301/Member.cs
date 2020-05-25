@@ -6,7 +6,7 @@ using System.Text;
 namespace CAB301
 {
     /// <summary>
-    /// Class representing Member using library.
+    /// Class representing Members using the library.
     /// </summary>
     public class Member
     {
@@ -36,7 +36,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Method to check if a member meets constraints to borrow a movie.
+        /// Checks if a user meets constraints to borrow a movie.
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
@@ -48,7 +48,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Method to add movie record to member's possession.
+        /// Adds a movie to a user's possession.
         /// </summary>
         /// <param name="movie"></param>
         public void BorrowMovie(Movie movie)
@@ -57,7 +57,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Method to remove movie record from member's possession.
+        /// Given a movie, the movie record is removed from the user's possession.
         /// </summary>
         /// <param name="movie"></param>
         public void ReturnsMovie(Movie movie)
@@ -69,7 +69,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Given the title checks if user already has movie.
+        /// Given the title checks if user has already borrowed the movie.
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace CAB301
         }
 
         /// <summary>
-        /// Method to return username. 
+        /// Returns username of member.
         /// </summary>
         /// <returns></returns>
         public string GetUserName()

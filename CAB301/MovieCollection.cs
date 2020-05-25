@@ -87,7 +87,7 @@ namespace CAB301
         /// <returns></returns>
         public Node FindParentNode(Node parent, Node node)
         {
-            if (node == null || parent.Movie == null)
+            if (node == null) //|| parent.Movie == null
             {
                 return null;
             }
@@ -130,9 +130,11 @@ namespace CAB301
         /// <returns></returns>
         public Node RemoveParentPointer(Node parent, Node node)
         {
-            if (parent == null) // Means Root
+            if (parent == null) // Means Root and instead of removing pointer have to clear node
             {
-                return new Node();
+                node.LeftNode = null;
+                node.RightNode = null;
+                return null;
             }
 
             int alphabeticalOrder = string.Compare(node.Movie.Title, parent.Movie.Title);
@@ -154,7 +156,7 @@ namespace CAB301
         public bool RemoveDVD(string title)
         {
             bool isOperationSuccessfull = false;
-            // Get node
+
             try
             {
                 Node node = this.FindNode(Root, title);
@@ -163,8 +165,7 @@ namespace CAB301
 
                 if (node != null) 
                 {
-                    node.Movie = null;
-
+                    
                     int numberMovies = GetNumberMovies(node.LeftNode, 0);
                     Movie[] displacedLeftMovies = new Movie[numberMovies];
                     orderCount = 0;
@@ -183,6 +184,9 @@ namespace CAB301
 
                     // Remove pointer 
                     this.RemoveParentPointer(parent, node);
+
+                    // Clear movie 
+                    node.Movie = null;
 
                     // Traverse through the left node. 
                     foreach (Movie movie in displacedLeftMovies)

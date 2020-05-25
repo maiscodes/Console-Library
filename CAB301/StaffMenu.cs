@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 namespace CAB301
 {
     /// <summary>
     /// Class to load the Staff Menu.
     /// </summary>
-    public class StaffMenu : Page
+    public class StaffMenu
     {
         public MainMenu MainMenu { get; set; }
         public MemberCollection Members { get; set; }
@@ -29,7 +26,7 @@ namespace CAB301
         }
 
 
-        public override void Load()
+        public void Load()
         {
             Console.WriteLine(display);
 

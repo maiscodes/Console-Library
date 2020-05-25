@@ -6,9 +6,9 @@ using System.Text;
 namespace CAB301
 {
     /// <summary>
-    /// Class to load and 
+    /// Class to display and process Main Menu actions.
     /// </summary>
-    public class MainMenu : Page
+    public class MainMenu
     {
         public StaffMenu StaffMenu { get; set; }
         public MemberMenu MemberMenu { get; set; }
@@ -28,7 +28,7 @@ Welcome to the Community Library
             this.Staff = staff;
         }
 
-        public override void Load()
+        public void Load()
         {
             Console.WriteLine(display);
 
@@ -56,19 +56,22 @@ Welcome to the Community Library
 
         }
 
+        /// <summary>
+        /// Reads input from console to perform staff credential authentication, 
+        /// only loading the staff menu screen if matching records are found.
+        /// </summary>
+        /// <returns></returns>
         public bool TryStaffLogin()
         {
             bool isInputValid = false;
-            // Enter username
-            Console.Write("Enter staff username: ");
+            
+            Console.Write("Enter staff username: "); // Enter username
             string inputUsername = Console.ReadLine();
 
-            // Enter password
-            Console.Write("Enter staff password: ");
+            Console.Write("Enter staff password: "); // Enter password
             string inputPassword = Console.ReadLine();
 
-            // Perform staff credential validation
-            if (Staff.IsValid(inputUsername, inputPassword))
+            if (Staff.IsValid(inputUsername, inputPassword)) // Perform credential validation
             {
                 isInputValid = !isInputValid;
                 Console.WriteLine("\nSuccessful login! Transferring you to Staff Menu");
@@ -81,26 +84,28 @@ Welcome to the Community Library
             return isInputValid;
         }
 
+        /// <summary>
+        ///  Reads input from console to perform member credential authentication, 
+        /// only loading the member menu screen if matching records are found.
+        /// </summary>
+        /// <returns></returns>
         public bool TryMemberLogin()
         {
             bool isInputValid = false;
-            // Enter username
-            Console.Write("Enter member username: ");
+
+            Console.Write("Enter member username: "); // Enter username
             string inputUsername = Console.ReadLine();
 
-            // Enter password
-            Console.Write("Enter member password: ");
+            Console.Write("Enter member password: "); // Enter password
             string inputPassword = Console.ReadLine();
 
-            // Perform member credential validation
-            Member member = Members.LoginMember(inputUsername, inputPassword);
+            Member member = Members.LoginMember(inputUsername, inputPassword); // Perform credential validation
 
             if (member != null)
             {
                 isInputValid = !isInputValid;
                 Console.WriteLine("\nSuccessful Authentication! Logging in as {0}", member.GetUserName());
                 MemberMenu.Load(member);
-               
             }
             else
             {
